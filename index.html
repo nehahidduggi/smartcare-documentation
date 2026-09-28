@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartCare Assist – Interactive Technical Documentation</title>
+<meta name="description" content="Architecture and rule-based engines of SmartCare Assist, the decision-support module in Carecrypt.">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav" id="nav"><div class="wrap navin">
+ <a class="brand" href="#top"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g stroke="#27C5B4" stroke-width="1.6"><path d="M16 16 8 9M16 16l9-4M16 16l-3 9M16 16l8 8"/></g><circle cx="16" cy="16" r="4" fill="#27C5B4"/><circle cx="8" cy="9" r="2" fill="#A78BFA"/><circle cx="25" cy="12" r="2" fill="#A78BFA"/><circle cx="13" cy="25" r="2" fill="#A78BFA"/><circle cx="24" cy="24" r="2" fill="#A78BFA"/></svg><span><b>SmartCare Assist</b><small>Interactive Technical Documentation</small></span></a>
+ <button class="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="links">Menu</button>
+ <nav id="links" class="links" aria-label="Primary">
+  <a href="#overview">Overview</a><a href="#workflow">Workflow</a><a href="#engines">Engines</a><a href="#maternal">Maternal Risk</a><a href="#architecture">Architecture</a><a href="#safety">Safety</a>
+  <a class="btn ghost" href="https://github.com/SAHIL-coder-79/Carecrypt" target="_blank" rel="noopener">GitHub</a>
+ </nav></div></header>
+<main id="main">
+<section class="hero" id="top"><div class="wrap herogrid">
+ <div><span class="badge">Rule-Based Clinical Decision Support</span>
+  <h1>Clarity behind every assessment.</h1>
+  <p class="lead">Explore the architecture, rule-based assessment engines, escalation logic and confidence framework powering SmartCare Assist.</p>
+  <div class="cta"><a class="btn" href="#workflow">Explore the workflow</a><a class="btn ghost" href="#architecture">Explore the architecture</a></div></div>
+ <div class="heroviz" aria-hidden="true"><canvas id="hero-canvas"></canvas><div class="fallback"><i></i><i></i><i></i><i></i><i></i><b></b></div></div>
+</div></section>
+
+<section id="overview" class="wrap sec"><h2>Inside SmartCare Assist</h2>
+ <p class="sub">A rule-based clinical decision-support module within Carecrypt (engine version 2.0.0). It supports preliminary risk assessment, symptom and vital analysis, maternal risk evaluation, escalation categories, confidence estimation and condition-group matching.</p>
+ <div class="grid3">
+  <article class="card"><h3>Rule-based assessment</h3><p>Predefined symptom weights, vital-sign thresholds, symptom clusters and comorbidity weights. No machine learning is used.</p></article>
+  <article class="card"><h3>Structured risk evaluation</h3><p>Produces a capped 0–100 score, a Green/Amber/Red category, an urgency label and a list of reasons.</p></article>
+  <article class="card"><h3>Explainable outputs</h3><p>Returns reasons, a scoring log, confidence components and up to three matching condition groups.</p></article>
+ </div>
+ <p class="note"><b>SmartCare Assist is a decision-support tool, not a diagnostic system.</b></p></section>
+
+<section id="workflow" class="wrap sec"><h2>How the pipeline works</h2>
+ <p class="sub">The order below is the order <code>assess()</code> in <code>smartcare/index.js</code> runs. Select a stage in the diagram or the cards.</p>
+ <div id="two-flow" class="flow" role="img" aria-label="Five-stage pipeline: maternal risk, base risk, escalation, confidence, differential. Described in the cards below."></div>
+ <ol class="steps" id="steps">
+  <li class="card step" tabindex="0" data-i="0"><h3>Maternal risk</h3><p>Detects pregnancy from medical history and adds age and blood-pressure modifiers.</p><dl><dt>In</dt><dd>age, symptoms, medicalHistory, vitals</dd><dt>Out</dt><dd>isMaternal, riskScoreModifier, reasons</dd><dt>File</dt><dd><code>engines/maternalRiskEngine.js</code></dd></dl></li>
+  <li class="card step" tabindex="0" data-i="1"><h3>Base risk</h3><p>Scores symptoms, severity, age, vitals, clusters, duration and comorbidities; matches a condition group.</p><dl><dt>In</dt><dd>all inputs plus isMaternal</dd><dt>Out</dt><dd>score, reasons, warnings, conditionCode, treatments, labTests, vitalFindings, reasoningLog</dd><dt>File</dt><dd><code>engines/riskEngine.js</code></dd></dl></li>
+  <li class="card step" tabindex="0" data-i="2"><h3>Escalation</h3><p>Combines base and maternal results, applies priority rules and the stability guard.</p><dl><dt>In</dt><dd>base, maternal, symptoms, severity, vitals, age</dd><dt>Out</dt><dd>riskColor, urgency, finalScore, suggestedActions, allReasons</dd><dt>File</dt><dd><code>engines/escalationEngine.js</code></dd></dl></li>
+  <li class="card step" tabindex="0" data-i="3"><h3>Confidence (DCI)</h3><p>Rates how complete and consistent the input is.</p><dl><dt>In</dt><dd>age, symptoms, vitals, base, maternal, escalation</dd><dt>Out</dt><dd>confidenceScore, confidenceLevel, dci, reasoning</dd><dt>File</dt><dd><code>engines/confidenceEngine.js</code></dd></dl></li>
+  <li class="card step" tabindex="0" data-i="4"><h3>Differential</h3><p>Returns the top three condition groups by symptom-pattern match.</p><dl><dt>In</dt><dd>symptoms</dd><dt>Out</dt><dd>[{ code, matchScore, urgency }]</dd><dt>File</dt><dd><code>engines/riskEngine.js</code></dd></dl></li>
+ </ol></section>
+
+<section id="engines" class="wrap sec"><h2>Risk engine</h2>
+ <p class="sub">Rule-based evaluation in <code>riskEngine.js</code>: 14 condition groups, hand-set weights, capped at 100.</p>
+ <div class="grid2">
+  <article class="card"><h3>Inputs it scores</h3><ul><li>Severity: High 35, Medium 15, Low 5</li><li>Symptom weights (5–15 each, 8 if unknown, capped at 50 in total)</li><li>Age: under 2 +30, under 12 +10, 65+ +20, 75+ +35</li><li>Red flags: chest pain, breathlessness, confusion, severe bleeding, difficulty swallowing</li><li>Four symptom clusters, duration, comorbidities</li><li>Medication warnings from a six-drug table (a small list, not a full interaction checker)</li></ul></article>
+  <article class="card"><h3>Vital checks (implemented thresholds)</h3><table><thead><tr><th>Vital</th><th>Flagged</th><th>Critical</th></tr></thead><tbody>
+   <tr><td>Systolic BP</td><td>≥140 or &lt;90</td><td>≥180</td></tr><tr><td>Heart rate</td><td>≥110 or &lt;50</td><td>≥150</td></tr><tr><td>Temperature °C</td><td>≥38 or &lt;35.5</td><td>≥40</td></tr><tr><td>SpO₂</td><td>&lt;94</td><td>&lt;90</td></tr><tr><td>Resp. rate</td><td>≥25</td><td>≥30</td></tr></tbody></table>
+   <p class="small">Software thresholds, not medical advice. Diastolic ranges are defined but <code>analyzeVitals</code> does not check them.</p></article>
+ </div>
+ <p class="small">Separate from the pipeline: <code>calculateWeightedRiskScore</code> is exported but not called by <code>assess()</code>; it uses its own thresholds and assumes °F.</p>
+
+ <h2 class="h2b">Escalation engine</h2>
+ <p class="sub">Turns scores into a configured urgency category. These rules are not official triage guidelines.</p>
+ <div class="grid3">
+  <article class="card risk low"><h3>Low · Green</h3><p>Score below 35 with no override. Routine care and follow-up.</p></article>
+  <article class="card risk med"><h3>Medium · Amber</h3><p>Score 35–69, or selected pediatric and maternal rules. Primary-care review.</p></article>
+  <article class="card risk high"><h3>High · Red</h3><p>Score 70 or above, or severe symptoms. Emergency evaluation suggested.</p></article>
+ </div>
+ <ol class="prio card"><li>Score ≥100: Red, critical</li><li>Severe symptoms (chest pain, breathing difficulty, seizures): seizures, confusion and difficulty swallowing are always Red; isolated chest pain in a young patient with stable vitals, or breathlessness with stable vitals, is Amber</li><li>Age under 5 with fever and base score above 40: Amber</li><li>Maternal modifier ≥25: Red, specialist referral</li><li>Score bands: ≥70 High, ≥35 Medium</li><li>Moderate maternal modifier: Amber</li><li>Persistent moderate symptoms: Amber, but this rule cannot fire today (see notes)</li></ol>
+ <p class="note">Stability guard: a Red result becomes Amber unless a critical-trigger symptom is present (chest pain, breathlessness, confusion, severe bleeding, seizures, difficulty swallowing) or the score is above 85. This does not replace a clinician's judgment.</p>
+
+ <h2 class="h2b">Diagnostic Certainty Index</h2>
+ <p class="sub">A software confidence estimate. It is not a validated probability that a diagnosis is correct.</p>
+ <div class="dci card"><div class="ring"><svg viewBox="0 0 120 120" role="img" aria-label="Example DCI score 88 of 100"><circle cx="60" cy="60" r="52" class="rt"/><circle cx="60" cy="60" r="52" class="rf" id="ringf" data-v="88"/></svg><b id="ringn">88</b></div>
+  <div class="bars" id="bars">
+   <div title="Age, BP, heart rate and temperature present"><span>Data completeness · ×0.40</span><i data-v="100"></i></div>
+   <div title="Number of symptoms, +20 for a symptom cluster"><span>Symptom coherence · ×0.30</span><i data-v="100"></i></div>
+   <div title="Risk colour versus critical vital findings"><span>Vital alignment · ×0.20</span><i data-v="90"></i></div>
+   <div title="−5 per detected conflict (fever with normal temperature; severe bleeding without critical vitals)"><span>Conflict penalty · −5 each, max −10</span><i class="pen" data-v="0"></i></div>
+  </div></div>
+ <p class="small">Fixed example from a synthetic input (fever, headache, vomiting; complete vitals). Levels: Low 0–40, Moderate 41–70, High 71–100. Because the weights sum to 0.9, the highest achievable score is 90.</p>
+</section>
+
+<section id="maternal" class="wrap sec maternal"><h2>Maternal risk assessment</h2>
+ <p class="sub">Two exported functions in <code>maternalRiskEngine.js</code>. Only the first is used by the pipeline.</p>
+ <div class="grid2">
+  <article class="card"><h3><code>evaluateMaternalRisk()</code></h3><p>Called by <code>assess()</code>. Pregnant if history contains “pregnancy” or “pregnant”.</p><ul><li>Age under 18 or over 35: +15</li><li>Systolic ≥140 or diastolic ≥90: +30</li></ul></article>
+  <article class="card"><h3><code>calculateMaternalRiskScore()</code></h3><p>Exported, but not called by the pipeline.</p><ul><li>Age under 18 or over 35: +15</li><li>Systolic ≥140: +20 · Haemoglobin under 10: +20</li><li>Previous complications: +25 · Risk symptoms: +20</li><li>Levels: ≤30 normal, ≤60 moderate, above 60 high (capped at 100)</li></ul></article>
+ </div>
+ <p class="note">These functions implement software rules. Their outputs are not independent diagnoses or a replacement for antenatal care.</p></section>
+
+<section id="io" class="wrap sec"><h2>From input to structured output</h2>
+ <div class="grid2"><article class="card"><h3>Input</h3><pre>{ age, symptoms[], severity,
+  duration, vitals{}, medicalHistory[],
+  currentMedications[], allergies[] }</pre></article>
+ <article class="card"><h3>Output of assess()</h3><pre>{ engine, base, maternal,
+  escalation, confidence,
+  differential }
+// escalation: riskColor, urgency,
+//   finalScore, suggestedActions
+// confidence: dci.score, dci.components</pre></article></div></section>
+
+<section id="architecture" class="wrap sec"><h2>Inside the architecture</h2>
+ <p class="sub">Verified files only. Select a file to read its role.</p>
+ <div class="arch"><div class="tree card" role="tree" aria-label="Project files">
+  <details open><summary>smartcare/</summary><button data-f="index">index.js</button><details open><summary>engines/</summary><button data-f="risk">riskEngine.js</button><button data-f="esc">escalationEngine.js</button><button data-f="conf">confidenceEngine.js</button><button data-f="mat">maternalRiskEngine.js</button></details><button data-f="lab">labels.en.json</button><button data-f="src">SOURCE.md</button></details>
+  <details open><summary>backend/src/smartcare/</summary><button data-f="ad">adapter.js</button></details>
+  <details open><summary>docs/</summary><button data-f="doc">SMARTCARE.md</button></details></div>
+ <div class="card" id="fdetail" aria-live="polite"><h3></h3><p></p></div></div></section>
+
+<section class="wrap sec"><h2>Known implementation notes</h2>
+ <p class="sub">Found by reading and running the code. The original engines were not modified.</p>
+ <ul class="card notes"><li>The DCI cannot exceed 90: its weights sum to 0.9.</li><li>Condition entries have a <code>key</code> but no <code>name</code>, so <code>base.condition</code> and differential names are <code>undefined</code>. The adapter works around this using <code>conditionCode</code> and labels.</li><li>The persistent-symptoms escalation rule reads <code>duration</code> and <code>severity</code> from the base result, which never returns them, so it never fires.</li><li>The stability guard can downgrade a maternal Red to Amber while urgency stays “Critical”.</li><li>The “Severe” multiplier (×1.20) is unreachable via the adapter, which only emits Low, Medium or High.</li><li>The engines are hand-weighted and not clinically validated (see <code>SOURCE.md</code>).</li></ul></section>
+
+<section id="safety" class="wrap sec"><div class="safe"><h2>Decision support, not diagnosis</h2>
+ <ul><li>SmartCare is a rule-based module for preliminary risk assessment. It does not confirm medical conditions.</li><li>Outputs depend on the accuracy and completeness of the input.</li><li>Risk categories, confidence scores and condition matches must be interpreted by healthcare professionals.</li><li>It does not replace clinical examination, laboratory investigation or emergency services. Severe or urgent symptoms need appropriate medical attention.</li></ul></div></section>
+</main>
+<footer class="foot"><div class="wrap fgrid"><div><b>SmartCare Assist</b><br>Interactive Technical Documentation<p class="small">A static guide to the SmartCare module of Carecrypt.</p></div>
+ <nav aria-label="Footer"><a href="#overview">Overview</a> <a href="#workflow">Workflow</a> <a href="#engines">Engines</a> <a href="#architecture">Architecture</a> <a href="#safety">Safety</a></nav>
+ <div class="small"><a href="https://github.com/SAHIL-coder-79/Carecrypt" target="_blank" rel="noopener">Original Carecrypt repository</a><br><a href="https://github.com/neha19star/smartcare-documentation" target="_blank" rel="noopener">This documentation repository</a><br>© <span id="yr"></span> · <a href="#top">Back to top</a></div></div></footer>
+<script type="module" src="/src/main.js"></script>
+</body></html>
