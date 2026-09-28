@@ -1,6 +1,7 @@
 import './style.css'
 import { initHero } from './hero.js'
 import { initWorkflow } from './workflow.js'
+import { initSections } from './sections.js'
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)]
 $('#yr').textContent = new Date().getFullYear()
@@ -13,6 +14,8 @@ links.addEventListener('click', e => { if (e.target.tagName === 'A') { links.cla
 const navLinks = $$('#links a[href^="#"]')
 const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)) }), { rootMargin: '-45% 0px -50% 0px' })
 $$('main section[id]').forEach(s => spy.observe(s))
+
+initSections()
 
 // workflow (Two.js) + step cards
 const steps = $$('.step')

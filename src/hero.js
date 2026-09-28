@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Mesh, IcosahedronGeometry, SphereGeometry, MeshStandardMaterial, MeshBasicMaterial, PointLight, AmbientLight, BufferGeometry, Float32BufferAttribute, LineSegments, LineBasicMaterial, Points, PointsMaterial, Group } from 'three'
+import { WebGLRenderer, Scene, PerspectiveCamera, Mesh, IcosahedronGeometry, SphereGeometry, MeshStandardMaterial, MeshBasicMaterial, PointLight, AmbientLight, BufferGeometry, Float32BufferAttribute, LineSegments, LineBasicMaterial, Points, PointsMaterial, Group, Color } from 'three'
 
 export function initHero(canvas) {
   const wrap = canvas.parentElement
@@ -6,7 +6,7 @@ export function initHero(canvas) {
   try { r = new WebGLRenderer({ canvas, antialias: true, alpha: true }) } catch { wrap.classList.add('no-webgl'); return () => {} }
   const small = matchMedia('(max-width:700px)').matches
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-  const scene = new Scene(), cam = new PerspectiveCamera(45, 1, 0.1, 50); cam.position.z = 7
+  const scene = new Scene(), cam = new PerspectiveCamera(45, 1, 0.1, 50); cam.position.z = 8
   scene.add(new AmbientLight(0x88aacc, 0.7)); const pl = new PointLight(0x27c5b4, 60, 20); pl.position.set(3, 3, 5); scene.add(pl)
   const g = new Group(); scene.add(g)
   const core = new Mesh(new SphereGeometry(0.9, small ? 20 : 40, small ? 20 : 40), new MeshStandardMaterial({ color: 0x27c5b4, emissive: 0x0e5f57, roughness: 0.35 })); g.add(core)
@@ -19,6 +19,14 @@ export function initHero(canvas) {
   for (let i = 0; i < pn * 3; i++) pp[i] = (Math.random() - 0.5) * 12
   const pg = new BufferGeometry(); pg.setAttribute('position', new Float32BufferAttribute(pp, 3))
   const pts = new Points(pg, new PointsMaterial({ color: 0x94a3b8, size: 0.03, transparent: true, opacity: 0.6 })); scene.add(pts)
+  // two pathways: clinical (teal, upper right) and analytics (lavender, lower right)
+  const paths = [[0x27c5b4, new Float32Array(3), 1.4, [3.2, 1.6, 0]], [0xa78bfa, new Float32Array(3), -1.4, [3.2, -1.6, 0]]].map(([c, , y, end]) => {
+    const n = small ? 8 : 16, arr = new Float32Array(n * 3), geo = new BufferGeometry(); geo.setAttribute('position', new Float32BufferAttribute(arr, 3))
+    const m = new Points(geo, new PointsMaterial({ color: c, size: 0.09, transparent: true, opacity: 0.9 })); g.add(m)
+    return { n, arr, geo, end, y }
+  })
+  const flow = () => paths.forEach(p => { for (let i = 0; i < p.n; i++) { const u = (t * 0.6 + i / p.n) % 1
+    p.arr[i * 3] = 0.9 + u * (p.end[0] - 0.9); p.arr[i * 3 + 1] = p.end[1] * u * u * 1.2; p.arr[i * 3 + 2] = Math.sin(u * 6 + i) * 0.15 } p.geo.attributes.position.needsUpdate = true })
   let px = 0, py = 0, tx = 0, ty = 0, t = 0, raf = 0, on = false
   const move = e => { const b = wrap.getBoundingClientRect(); tx = ((e.clientX - b.left) / b.width - 0.5) * 0.6; ty = ((e.clientY - b.top) / b.height - 0.5) * 0.4 }
   const frame = () => {
@@ -27,7 +35,7 @@ export function initHero(canvas) {
     for (let i = 0; i < 5; i++) { const a = nodes[i].m.position, b = nodes[(i + 1) % 5].m.position
       pos.set([0, 0, 0, a.x, a.y, a.z], i * 6); pos.set([a.x, a.y, a.z, b.x, b.y, b.z], 30 + i * 6) }
     lg.attributes.position.needsUpdate = true
-    shell.rotation.y = t * 0.6; pts.rotation.y = t * 0.05
+    flow(); shell.rotation.y = t * 0.6; pts.rotation.y = t * 0.05
     px += (tx - px) * 0.05; py += (ty - py) * 0.05; g.rotation.y = px; g.rotation.x = py
     r.render(scene, cam)
     if (on && !still) raf = requestAnimationFrame(frame)

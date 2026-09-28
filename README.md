@@ -22,10 +22,10 @@ git init
 git add .
 git commit -m "SmartCare Assist documentation"
 git branch -M main
-git remote add origin https://github.com/neha19star/smartcare-documentation.git
+git remote add origin https://github.com/nehahidduggi/smartcare-documentation.git
 git push -u origin main
 ```
-Then on GitHub: **Settings → Pages → Source: GitHub Actions**. The workflow deploys to https://neha19star.github.io/smartcare-documentation/ (Vite `base` is `/smartcare-documentation/`).
+Then on GitHub: **Settings → Pages → Source: GitHub Actions**. The workflow deploys to https://nehahidduggi.github.io/smartcare-documentation/ (Vite `base` is `/smartcare-documentation/`).
 
 ## Safety
 SmartCare Assist is a rule-based decision-support tool, not a diagnostic system, and is not clinically validated. Attribution: Carecrypt by SAHIL-coder-79.

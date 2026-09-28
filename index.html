@@ -2,29 +2,146 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SmartCare Assist – Interactive Technical Documentation</title>
-<meta name="description" content="Architecture and rule-based engines of SmartCare Assist, the decision-support module in Carecrypt.">
+<title>CareCrypt – Privacy-Preserving Healthcare Intelligence</title>
+<meta name="description" content="CareCrypt: secure records, SmartCare Assist clinical decision support, and privacy-preserving population intelligence.">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="nav"><div class="wrap navin">
- <a class="brand" href="#top"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g stroke="#27C5B4" stroke-width="1.6"><path d="M16 16 8 9M16 16l9-4M16 16l-3 9M16 16l8 8"/></g><circle cx="16" cy="16" r="4" fill="#27C5B4"/><circle cx="8" cy="9" r="2" fill="#A78BFA"/><circle cx="25" cy="12" r="2" fill="#A78BFA"/><circle cx="13" cy="25" r="2" fill="#A78BFA"/><circle cx="24" cy="24" r="2" fill="#A78BFA"/></svg><span><b>SmartCare Assist</b><small>Interactive Technical Documentation</small></span></a>
+ <a class="brand" href="#top"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g stroke="#27C5B4" stroke-width="1.6"><path d="M16 16 8 9M16 16l9-4M16 16l-3 9M16 16l8 8"/></g><circle cx="16" cy="16" r="4" fill="#27C5B4"/><circle cx="8" cy="9" r="2" fill="#A78BFA"/><circle cx="25" cy="12" r="2" fill="#A78BFA"/><circle cx="13" cy="25" r="2" fill="#A78BFA"/><circle cx="24" cy="24" r="2" fill="#A78BFA"/></svg><span><b>CARECRYPT</b><small>Healthcare intelligence, privately</small></span></a>
  <button class="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="links">Menu</button>
  <nav id="links" class="links" aria-label="Primary">
-  <a href="#overview">Overview</a><a href="#workflow">Workflow</a><a href="#engines">Engines</a><a href="#maternal">Maternal Risk</a><a href="#architecture">Architecture</a><a href="#safety">Safety</a>
-  <a class="btn ghost" href="https://github.com/SAHIL-coder-79/Carecrypt" target="_blank" rel="noopener">GitHub</a>
+  <a href="#overview">Overview</a><a href="#platform">Platform</a><a href="#how">How It Works</a><a href="#privacy">Privacy</a><a href="#security">Security</a><a href="#intelligence">Intelligence</a><a href="#architecture">Architecture</a><a href="#workflow">Demo</a><a class="btn ghost" href="https://github.com/nehahidduggi/smartcare-documentation" target="_blank" rel="noopener">GitHub</a>
  </nav></div></header>
 <main id="main">
 <section class="hero" id="top"><div class="wrap herogrid">
- <div><span class="badge">Rule-Based Clinical Decision Support</span>
-  <h1>Clarity behind every assessment.</h1>
-  <p class="lead">Explore the architecture, rule-based assessment engines, escalation logic and confidence framework powering SmartCare Assist.</p>
-  <div class="cta"><a class="btn" href="#workflow">Explore the workflow</a><a class="btn ghost" href="#architecture">Explore the architecture</a></div></div>
- <div class="heroviz" aria-hidden="true"><canvas id="hero-canvas"></canvas><div class="fallback"><i></i><i></i><i></i><i></i><i></i><b></b></div></div>
+ <div><span class="badge">PRIVACY-PRESERVING HEALTHCARE INTELLIGENCE</span>
+  <h1><span class="kick">CARECRYPT</span>Healthcare intelligence, without compromising privacy.</h1>
+  <p class="tag">Secure Records. Smarter Care. Safer Health Intelligence.</p>
+  <p class="lead">CareCrypt connects secure patient records, contextual clinical decision support, and population-level health intelligence through a privacy-first healthcare architecture.</p>
+  <div class="cta"><a class="btn" href="#platform">Explore the Platform</a><a class="btn ghost" href="#architecture">Explore the Architecture</a></div></div>
+ <div class="heroviz"><canvas id="hero-canvas" aria-hidden="true"></canvas><div class="fallback" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><b></b></div>
+  <span class="fl f1">QR Identity</span><span class="fl f2">Authorized Access</span><span class="fl f3">Privacy Firewall</span><span class="fl f4">Aggregate Intelligence</span></div>
 </div></section>
 
-<section id="overview" class="wrap sec"><h2>Inside SmartCare Assist</h2>
+<section id="overview" class="wrap sec"><h2>Healthcare needs intelligence. Patients need privacy.</h2>
+ <p class="sub">Healthcare has two legitimate but different needs. Giving every user the same underlying patient information creates privacy risk.</p>
+ <div class="grid2"><article class="card"><h3>Clinical Care</h3><p>Clinicians need relevant patient-level information: previous diagnoses, visits, prescriptions, investigations, symptoms and history.</p></article>
+ <article class="card lavc"><h3>Population Intelligence</h3><p>Administrators need disease trends, geographic patterns, temporal changes and population-level statistics, not identities.</p></article></div>
+ <p class="callout">CareCrypt separates patient-level clinical access from privacy-preserving population analytics.</p>
+ <h2 class="h2b">From clinical intelligence to healthcare intelligence.</h2>
+ <div class="evo"><div class="card lavc"><b>SmartCare Assist</b><small>Clinical Decision Support</small></div><span class="plus">+</span>
+  <div class="card"><ul class="ticks"><li>Secure Patient Identity</li><li>Longitudinal Records</li><li>Consent and RBAC</li><li>Privacy Firewall</li><li>Population Intelligence</li></ul></div><span class="plus arr">→</span>
+  <div class="card evo-cc"><b>CARECRYPT</b></div></div>
+ <p class="small">SmartCare Assist is the decision-support layer. CareCrypt adds the secure infrastructure and privacy controls around it.</p></section>
+
+<section id="platform" class="wrap sec"><h2>One platform, four roles.</h2>
+ <p class="sub">Capabilities below describe the intended design. Backend enforcement status is <span class="st prop">Proposed</span> until confirmed against the CareCrypt repository.</p>
+ <div class="grid4">
+ <article class="card role"><h3>Patient</h3><ul><li>Takes part in authorizing access</li><li>Secure QR-based identification</li><li>Reviews consent and access activity</li><li>Views own longitudinal record</li></ul></article>
+ <article class="card role"><h3>Clinician</h3><ul><li>Scans the patient QR identifier</li><li>Authenticates and obtains authorized access</li><li>Reviews relevant history</li><li>Uses SmartCare Assist; records visits</li></ul></article>
+ <article class="card role lavc"><h3>Administrator</h3><ul><li>Views aggregate disease statistics</li><li>Monitors trends over time</li><li>Explores permitted geographic patterns</li><li><b>No</b> identifiable patient records</li></ul></article>
+ <article class="card role lavc"><h3>Security Administrator</h3><ul><li>Reviews audit logs</li><li>Monitors suspicious access</li><li>Investigates security events</li><li><b>No</b> unrestricted clinical access</li></ul></article></div></section>
+
+<section id="how" class="wrap sec"><h2>One patient journey. Connected healthcare intelligence.</h2><p class="sub">Select a step. Fictional flow, illustrative only.</p>
+ <div class="tabs" data-tabs><div class="steps8" role="tablist">
+  <button data-t="0" class="on"><i>01</i>QR Identification</button><button data-t="1"><i>02</i>Clinician Authentication</button><button data-t="2"><i>03</i>Authorization and Consent</button><button data-t="3"><i>04</i>Longitudinal Record</button><button data-t="4"><i>05</i>SmartCare Assist</button><button data-t="5"><i>06</i>New Visit Recorded</button><button data-t="6"><i>07</i>Privacy-Preserving Aggregation</button><button data-t="7"><i>08</i>Disease Intelligence</button></div>
+  <div class="panel on" data-p="0"><h3>QR Identification</h3><p>The QR code represents a secure identifier or token. It does not contain diagnoses, prescriptions, or medical history.</p><pre>QR → token: CC-DEMO-7Q2X   (fictional)</pre></div>
+  <div class="panel" data-p="1"><h3>Clinician Authentication</h3><p>The clinician's identity is verified before access is granted.</p></div>
+  <div class="panel" data-p="2"><h3>Authorization and Consent</h3><p>Access is governed by role-based permissions and the applicable consent rules.</p></div>
+  <div class="panel" data-p="3"><h3>Longitudinal Record</h3><p>Authorized clinicians can review relevant previous visits, diagnoses, prescriptions, investigations and follow-ups.</p></div>
+  <div class="panel" data-p="4"><h3>SmartCare Assist</h3><p>Relevant authorized context can be used alongside current symptoms to support clinical decision-making. It is decision support, not a diagnosis.</p></div>
+  <div class="panel" data-p="5"><h3>New Visit Recorded</h3><p>The clinician records the consultation and relevant information.</p></div>
+  <div class="panel" data-p="6"><h3>Privacy-Preserving Aggregation</h3><p>Permitted information is transformed into aggregate analytics according to configured privacy protections.</p></div>
+  <div class="panel" data-p="7"><h3>Disease Intelligence</h3><p>Administrators view permitted population-level trends without direct access to identifiable patient records.</p></div></div>
+ <h3 class="h2b">The QR identifies the patient. It does not expose their health data.</h3>
+ <div class="flow"><span>QR Code</span><span>Secure Identifier</span><span>Authentication</span><span>Authorization</span><span class="hi">Authorized Patient Record</span></div>
+ <button class="btn ghost" id="qrbtn">Scan QR without authorization</button><pre id="qrout" class="out" aria-live="polite">Scan result: token CC-DEMO-7Q2X only. No record returned.</pre>
+ <h3 class="h2b">Every visit becomes part of a connected health journey.</h3>
+ <div class="card rec"><span class="st prop">Fictional demonstration data</span><div class="tl"><p><b>2025</b> Initial diagnosis: type 2 diabetes (sample)</p><p><b>2026 Jan</b> Follow-up visit</p><p><b>2026 Mar</b> Prescription recorded</p><p><b>2026 Jun</b> Investigation: HbA1c (sample)</p><p><b>2026 Sep</b> Current consultation</p></div>
+ <p class="small">Sections in a full record: patient info · visits · symptoms · diagnoses · prescriptions · investigations · follow-ups · clinical notes.</p></div>
+ <div class="grid2"><div class="card"><h3>Without longitudinal context</h3><p>Current symptoms → SmartCare Assist</p></div><div class="card lavc"><h3>With CareCrypt</h3><p>Current symptoms + relevant authorized history + previous diagnoses + medication history → SmartCare Assist → contextual decision support</p></div></div>
+ <p class="small">SmartCare Assist is a clinical decision-support tool, not an autonomous doctor, diagnosis, or treatment authority. Clinical decisions remain with qualified healthcare professionals. No claim of improved accuracy or clinical validation is made.</p></section>
+
+<section id="privacy" class="wrap sec"><h2>One healthcare ecosystem. Two protected data pathways.</h2>
+ <p class="sub">Patient-level information supports authorized clinical care. Privacy-protected aggregate information supports population intelligence. Select a path.</p>
+ <div class="tabs fw" data-tabs><div class="fwtop">HEALTH DATA</div>
+  <button class="fwall" data-t="2">PRIVACY FIREWALL</button>
+  <div class="fwcols"><button data-t="0" class="on clin"><b>CLINICAL PATH</b><span>Authorized patient data</span><span>SmartCare Assist</span><span>Clinician</span></button>
+  <button data-t="1" class="ana"><b>ANALYTICS PATH</b><span>Privacy engine: aggregation + suppression</span><span>Disease intelligence</span><span>Administrator</span></button></div>
+  <div class="panel on" data-p="0"><h3>Clinical path</h3><p>Authenticated, authorized clinicians access patient-level data for care, and SmartCare Assist uses that context.</p></div>
+  <div class="panel" data-p="1"><h3>Analytics path</h3><p>Data is aggregated and small groups are suppressed before administrators see trends. No identifiable records.</p></div>
+  <div class="panel" data-p="2"><h3>Privacy firewall</h3><p>Conceptual separation: role checks, aggregation, minimum-group suppression, audit logging. This diagram does not enforce security; backend authorization and data-processing controls do.</p></div></div>
+
+ <h2 class="h2b">Small groups should not become identifiable.</h2>
+ <div class="card sim"><div class="ctl"><label>Region<select id="sr"><option>Pune East</option><option>Pune West</option><option>Nashik</option></select></label><label>Age group<select id="sa"><option>0–17</option><option>18–40</option><option>41–65</option><option>65+</option></select></label><label>Condition<select id="sc"><option>Dengue</option><option>Diabetes</option><option>Hypertension</option></select></label><label>Threshold <output id="tv">10</output><input id="st" type="range" min="2" max="30" value="10"></label></div>
+ <div id="simout" class="result" aria-live="polite"></div>
+ <p class="small">Mock data. Threshold suppression is one safeguard and does not alone guarantee protection against every re-identification or inference attack.</p></div>
+ <h3>Privacy protection goes beyond a single query.</h3>
+ <div class="card"><div id="qs" class="qs"></div><button class="btn" id="qbtn">Simulate Query Pattern</button><div id="qalert" class="alert" hidden><b>POTENTIAL INFERENCE RISK</b><br>Suspicious narrowing pattern detected. Query sequence flagged for review. Audit event recorded.</div>
+ <p class="small">Demonstration of a <span class="st prop">Proposed</span> monitoring feature, not a confirmed detection engine.</p></div></section>
+
+<section id="security" class="wrap sec"><h2>Access is determined by role, not convenience.</h2>
+ <p class="sub">Proposed permission model. It must be enforced by backend APIs, not by frontend visibility, and aligned with the implemented rules.</p>
+ <div class="scroll"><table class="rbac"><thead><tr><th>Feature</th><th>Clinician</th><th>Admin</th><th>Security Admin</th></tr></thead><tbody>
+ <tr><td>Patient record</td><td class="ok">Allowed when authorized</td><td class="no">Denied</td><td class="no">Denied</td></tr>
+ <tr><td>Medical history / prescriptions</td><td class="ok">Allowed when authorized</td><td class="no">Denied</td><td class="no">Denied</td></tr>
+ <tr><td>SmartCare Assist</td><td class="ok">Authorized use</td><td class="no">Denied</td><td class="no">Denied</td></tr>
+ <tr><td>Aggregate trends / analytics</td><td class="mid">As permitted</td><td class="ok">Allowed</td><td class="no">Denied</td></tr>
+ <tr><td>Audit logs</td><td class="mid">Limited if authorized</td><td class="no">Denied</td><td class="ok">Allowed</td></tr>
+ <tr><td>Security events</td><td class="no">Denied</td><td class="no">Denied</td><td class="ok">Allowed</td></tr></tbody></table></div>
+
+ <h2 class="h2b">Every sensitive action should leave a trace.</h2>
+ <p class="sub">Frontend simulation with mock data. Not a live backend or a real security test.</p>
+ <div class="tabs con" data-tabs><div class="steps8"><button data-t="0" class="on">A · Authorized clinician</button><button data-t="1">B · Admin, patient record</button><button data-t="2">C · Small population</button><button data-t="3">D · Repeated narrowing</button></div>
+ <div class="panel on" data-p="0"><pre>&gt; GET /api/patients/P-102
+200 AUTHORIZED
+Role: Clinician · Purpose: Clinical Consultation
+Audit event: recorded</pre></div>
+ <div class="panel" data-p="1"><pre>&gt; GET /api/patients/P-102
+403 FORBIDDEN
+Role: Admin · Access: Denied
+Reason: Administrative role cannot access identifiable patient records.
+Audit event: recorded</pre></div>
+ <div class="panel" data-p="2"><pre>&gt; GET /api/analytics?region=X&amp;condition=Y
+RESULT SUPPRESSED
+Reason: Population below configured minimum threshold.
+Audit event: recorded</pre></div>
+ <div class="panel" data-p="3"><pre>&gt; 4 successive narrowing queries
+POTENTIAL INFERENCE RISK
+Reason: Suspicious query pattern flagged for review.
+Audit event: recorded</pre></div></div>
+ <h3 class="h2b">Controlled access, including exceptional circumstances</h3>
+ <div class="grid2"><div class="card"><h3>Consent-based access</h3><p class="flowt">Clinician requests → patient authorizes → time-limited access → consultation → expiry → audit event</p></div>
+ <div class="card lavc"><h3>Emergency break-glass</h3><p class="flowt">Emergency request → reason required → limited scope → temporary access (e.g. 15 min, illustrative) → mandatory audit and review</p></div></div>
+ <p class="small">Both flows are <span class="st prop">Proposed</span>. Emergency access is meant to be controlled and auditable, not unrestricted.</p></section>
+
+<section id="intelligence" class="wrap sec"><h2>Turn protected data into population-level insights.</h2>
+ <p class="banner">ILLUSTRATIVE DEMONSTRATION DATA — NOT REAL PATIENT STATISTICS</p>
+ <div class="card"><div class="ctl"><label>Condition<select id="dc"><option value="dengue">Dengue</option><option value="diab">Diabetes</option><option value="htn">Hypertension</option></select></label><span class="st ok2">Privacy: groups under threshold suppressed</span></div>
+ <svg id="chart" viewBox="0 0 400 180" role="img" aria-label="Weekly illustrative case counts"></svg>
+ <div id="anom" class="alert"></div>
+ <p class="small">An aggregate trend alert is not a confirmed outbreak declaration, medical conclusion, or public-health notification.</p></div></section>
+
+<section id="architecture" class="wrap sec"><h2>Engineered around separation, authorization, and privacy.</h2>
+ <p class="sub">Select a component. Status reflects what this documentation project has verified: only SmartCare Assist and its adapter were checked against source. Everything else is <span class="st prop">Proposed</span> until confirmed.</p>
+ <div class="tabs arch" data-tabs><div class="steps8"><button data-t="0" class="on">Frontend</button><button data-t="1">Backend</button><button data-t="2">Database</button><button data-t="3">Clinical system</button><button data-t="4">Analytics system</button><button data-t="5">Security layer</button></div>
+ <div class="panel on" data-p="0"><h3>Frontend <span class="st prop">Proposed</span></h3><p>React + Vite + Tailwind CSS (target stack). This documentation site itself uses vanilla JS + Vite.</p></div>
+ <div class="panel" data-p="1"><h3>Backend <span class="st prop">Proposed</span></h3><p>Node.js + Express.js, REST APIs, JWT, RBAC middleware.</p></div>
+ <div class="panel" data-p="2"><h3>Database <span class="st prop">Proposed</span></h3><p>PostgreSQL.</p></div>
+ <div class="panel" data-p="3"><h3>Clinical system</h3><p>QR identification, authentication, consent, longitudinal records (<span class="st prop">Proposed</span>) and SmartCare Assist: rule-based engines with a backend adapter <span class="st ver">Verified in source</span>.</p></div>
+ <div class="panel" data-p="4"><h3>Analytics system <span class="st prop">Proposed</span></h3><p>Aggregate API, privacy engine, minimum-group suppression, inference-risk monitoring, disease intelligence.</p></div>
+ <div class="panel" data-p="5"><h3>Security layer <span class="st prop">Proposed</span></h3><p>Authorization, audit logging, security events.</p></div></div>
+ <h2 class="h2b">Built in stages. Designed for responsible healthcare intelligence.</h2>
+ <div class="grid3"><div class="card"><h3>Core MVP</h3><p>Authentication · clinician/admin roles · QR identification · longitudinal records · SmartCare integration · aggregate dashboard · backend RBAC · suppression · audit logs</p></div>
+ <div class="card"><h3>High-value extensions</h3><p>Consent · firewall visualization · privacy attack simulator · anomaly detection · geographic view · break-glass</p></div>
+ <div class="card"><h3>Future scope</h3><p>Advanced inference-risk detection · MFA · differential privacy · natural-language analytics assistant</p></div></div>
+ <p class="small">All roadmap items <span class="st prop">Proposed</span>: status not verified.</p>
+ <div class="grid3"><div class="card"><h3>Better-informed clinical care</h3><p>Authorized access to relevant longitudinal information and contextual decision support.</p></div><div class="card"><h3>Privacy-preserving intelligence</h3><p>Population analytics designed to limit exposure of identifiable records.</p></div><div class="card"><h3>Accountable security</h3><p>Backend authorization, consent controls, auditability, monitoring.</p></div></div></section>
+
+<div class="wrap sc-intro"><span class="badge">SMARTCARE ASSIST · TECHNICAL DEEP DIVE (verified against source)</span></div>
+<section id="smartcare" class="wrap sec"><h2>Inside SmartCare Assist</h2>
  <p class="sub">A rule-based clinical decision-support module within Carecrypt (engine version 2.0.0). It supports preliminary risk assessment, symptom and vital analysis, maternal risk evaluation, escalation categories, confidence estimation and condition-group matching.</p>
  <div class="grid3">
   <article class="card"><h3>Rule-based assessment</h3><p>Predefined symptom weights, vital-sign thresholds, symptom clusters and comorbidity weights. No machine learning is used.</p></article>
@@ -95,7 +212,7 @@
 //   finalScore, suggestedActions
 // confidence: dci.score, dci.components</pre></article></div></section>
 
-<section id="architecture" class="wrap sec"><h2>Inside the architecture</h2>
+<section id="sc-files" class="wrap sec"><h2>Inside the architecture</h2>
  <p class="sub">Verified files only. Select a file to read its role.</p>
  <div class="arch"><div class="tree card" role="tree" aria-label="Project files">
   <details open><summary>smartcare/</summary><button data-f="index">index.js</button><details open><summary>engines/</summary><button data-f="risk">riskEngine.js</button><button data-f="esc">escalationEngine.js</button><button data-f="conf">confidenceEngine.js</button><button data-f="mat">maternalRiskEngine.js</button></details><button data-f="lab">labels.en.json</button><button data-f="src">SOURCE.md</button></details>
@@ -109,6 +226,7 @@
 
 <section id="safety" class="wrap sec"><div class="safe"><h2>Decision support, not diagnosis</h2>
  <ul><li>SmartCare is a rule-based module for preliminary risk assessment. It does not confirm medical conditions.</li><li>Outputs depend on the accuracy and completeness of the input.</li><li>Risk categories, confidence scores and condition matches must be interpreted by healthcare professionals.</li><li>It does not replace clinical examination, laboratory investigation or emergency services. Severe or urgent symptoms need appropriate medical attention.</li></ul></div></section>
+<section id="closing" class="wrap sec close"><h2 class="big">CARECRYPT</h2><p class="tag">Secure Records. Smarter Care. Safer Health Intelligence.</p><p class="lead">Patient-level data for care. Aggregate data for intelligence. Privacy for everyone.</p><div class="cta"><a class="btn" href="#architecture">Explore the Architecture</a><a class="btn ghost" href="https://github.com/nehahidduggi/smartcare-documentation" target="_blank" rel="noopener">View GitHub Repository</a></div></section>
 </main>
 <footer class="foot"><div class="wrap fgrid"><div><b>SmartCare Assist</b><br>Interactive Technical Documentation<p class="small">A static guide to the SmartCare module of Carecrypt.</p></div>
  <nav aria-label="Footer"><a href="#overview">Overview</a> <a href="#workflow">Workflow</a> <a href="#engines">Engines</a> <a href="#architecture">Architecture</a> <a href="#safety">Safety</a></nav>
